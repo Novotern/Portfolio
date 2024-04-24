@@ -17,7 +17,7 @@ import plotly.express as px
 
 import os 
 
-print(os.getcwd())
+os.getcwd()
 
 farmland = pd.read_csv("../farmland/farmlands.csv")
 farmland
