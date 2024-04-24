@@ -15,9 +15,12 @@ Through meticulous analysis and data-driven exploration, we endeavor to provide 
 import pandas as pd
 import plotly.express as px
 
+import os 
+
+print(os.getcwd())
 
 farmland = pd.read_csv("../farmland/farmlands.csv")
-
+farmland
 
 # Display the distribution of farm types
 farm_type_distribution = farmland['type'].value_counts().reset_index()
