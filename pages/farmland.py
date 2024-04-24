@@ -19,7 +19,7 @@ import os
 
 os.getcwd()
 
-farmland = pd.read_csv("../farmland/farmlands.csv")
+farmland = pd.read_csv("farmland/farmlands.csv")
 farmland
 
 # Display the distribution of farm types
