@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.markdown("<h1 style='text-align:center;'>Nigeria Farmland Analysis</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center;'>LOAN METRICS</h1>", unsafe_allow_html=True)
 
 st.markdown("""<center>
 

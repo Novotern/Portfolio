@@ -15,10 +15,6 @@ Through meticulous analysis and data-driven exploration, we endeavor to provide 
 import pandas as pd
 import plotly.express as px
 
-import os 
-
-os.getcwd()
-
 farmland = pd.read_csv("farmland/farmlands.csv")
 farmland
 
