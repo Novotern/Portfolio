@@ -187,3 +187,36 @@ fig5.add_annotation(x=0.9, y=0.9,
 
 with st.expander('Interest Rate vs Umemployment', True):
     st.plotly_chart(fig5, use_container_width=True)
+
+
+# Sample DataFrame
+# data = {
+#     'Column1': [1, 2, 3, 4, 5],
+#     'Column2': ['A', 'B', 'C', 'D', 'E']
+# }
+# df = pd.DataFrame(data)
+
+# Function to convert DataFrame into a CSV download link
+def convert_df_to_csv(df):
+    # IMPORTANT: to_string is used to convert dataframe to string and then to byte, the correct method is to use to_csv
+    csv = df.to_csv(index=False)  # Convert DataFrame to CSV, index=False means do not write row names
+    b = bytes(csv, 'utf-8')  # Convert to bytes
+    return b
+
+# Streamlit application
+st.title('Download CSV Example')
+if st.checkbox('Show dataset used for the project', key=2):
+    st.write(data)  # Display the DataFrame on the page
+
+# Create download button
+if st.button('Download CSV'):
+    # Convert DataFrame to CSV
+    csv = convert_df_to_csv(data)
+    
+    # Create a link for downloading
+    st.download_button(
+        label="Download data as CSV",
+        data=csv,
+        file_name='data.csv',
+        mime='text/csv',
+    )
