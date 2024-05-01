@@ -54,3 +54,5 @@ with st.expander('Interest Rate Spread Over Time', True):
     st.plotly_chart(fig1, use_container_width=True)
     if st.checkbox('Show raw data', key=1):
         st.write(group[['month', 'interest_rate_spread']])
+        
+        
