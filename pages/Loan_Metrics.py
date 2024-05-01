@@ -14,5 +14,43 @@ The interest rate spread is a crucial metric for assessing the profitability and
 
 Financial institutions carefully manage their interest rate spread to ensure that it is sufficient to cover operating expenses, credit risk, loan loss provisions, and provide an adequate return to shareholders. Changes in market interest rates, economic conditions, and regulatory policies can impact the interest rate spread, making it essential for institutions to monitor and adjust their lending practices accordingly.
 
-In summary, the interest rate spread is a key metric used by financial institutions to assess the profitability and risk of their lending activities, providing insights into their overall financial health and performance.          
 </center>""", unsafe_allow_html=True)
+
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+data = pd.read_csv("data/loan_data.csv")
+
+data['date']=pd.to_datetime(data['date'])
+data['year']=data['date'].dt.year
+
+# Initialize the figure
+fig1 = go.Figure()
+
+# Colors for differentiating each year's trend
+colors = ['blue', 'red', 'green', 'purple']  # Add more colors if you have more than 4 years
+
+# Adding a trace for each year
+for i, (year, group) in enumerate(data.groupby('year')):
+    fig1.add_trace(go.Scatter(
+        x=group['month'], 
+        y=group['interest_rate_spread'],
+        mode='lines+markers',
+        name=f'Interest Rate Spread {year}',
+        line=dict(color=colors[i % len(colors)], width=2),
+        marker=dict(size=7, color=colors[i % len(colors)], opacity=0.5)
+    ))
+
+# Update the layout
+fig1.update_layout(
+    title='<b>Interest Rate Spread Over Time</b>',
+    xaxis_title='<b>Month</b>',
+    yaxis_title='<b>Interest Rate Spread (%)</b>',
+    template='seaborn'
+)
+
+with st.expander('Interest Rate Spread Over Time', True):
+    st.plotly_chart(fig1, use_container_width=True)
+    if st.checkbox('Show raw data', key=1):
+        st.write(group[['month', 'interest_rate_spread']])
