@@ -56,3 +56,66 @@ with st.expander('Interest Rate Spread Over Time', True):
         st.write(group[['month', 'interest_rate_spread']])
         
         
+
+# Function to plot interest rate spread for a specific year or all years
+def plot_interest_rate_spread(data, year='all'):
+    # Ensure column names are lowercase
+    data.columns = data.columns.str.lower()
+    
+    # Extract year from date if not already done
+    if 'year' not in data.columns:
+        data['year'] = data['date'].dt.year
+
+    # Initialize the figure
+    fig = go.Figure()
+
+    # Define colors for differentiation
+    colors = ['blue', 'red', 'green', 'purple', 'orange', 'pink']  # Extend as needed
+
+    if year == 'all':
+        # Plot data for all years
+        for i, (year, group) in enumerate(data.groupby('year')):
+            fig.add_trace(go.Scatter(
+                x=group['month'], 
+                y=group['interest_rate_spread'],
+                text=group['interest_rate_spread'].round(2),
+                mode='lines+markers+text',
+                name=f'{year}',
+                line=dict(color=colors[i % len(colors)], width=2),
+                marker=dict(size=7, color=colors[i % len(colors)], opacity=0.5),
+                textposition="top center"
+            ))
+    else:
+        # Plot data for the specified year
+        group = data[data['year'] == year]
+        fig.add_trace(go.Scatter(
+            x=group['month'], 
+            y=group['interest_rate_spread'],
+            text=group['interest_rate_spread'].round(2),
+            mode='lines+markers+text',
+            name=f'{year}',
+            line=dict(color='blue', width=2),
+            marker=dict(size=7, color='blue', opacity=0.5),
+            textposition="top center"
+        ))
+
+    # Update the layout
+    fig.update_layout(
+        title=f'Interest Rate Spread Over Time{" for Year " + str(year) if year != "all" else ""}',
+        xaxis_title='Month',
+        yaxis_title='Interest Rate Spread (%)',
+        template='plotly_white'
+    )
+
+    # Show the figure
+    # fig.show()
+    return fig
+
+# Example usage:
+# plot_interest_rate_spread(data, year='all')  # To plot all years
+# plot_interest_rate_spread(data, year=2023)    # To plot data for the year 2023
+
+with st.expander('Distribution of Interest', True):
+    year = st.selectbox('Year', [2020, 2021, 2022, 2023, 2024])
+    if year:
+        st.plotly_chart(plot_interest_rate_spread(data, year=year), use_container_width=True)
